@@ -2,8 +2,7 @@ import socket
 
 def enviar_operacao(client_socket, operacao):
     client_socket.send(operacao.encode())
-    response = client_socket.recv(1024).decode()
-    print(response)
+    
 
 
 HOST = '127.0.0.1'
@@ -38,6 +37,11 @@ while True:
         break
     else:
         print("Operação inválida. Tente novamente.")
+
+    #ESSA É A PARTE QUE TAVA NA FUNÇÃO "ENVIAR OPERAÇÃO"
+    response = client_socket.recv(1024).decode()
+    print(response) 
+
 
 # Fecha a conexão com o servidor
 client_socket.close()
