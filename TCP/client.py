@@ -21,24 +21,22 @@ while True:
         nota1 = input("Nota 1: ")
         nota2 = input("Nota 2: ")
         solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
-        
-    
+           
     elif escolha == "2":
         nome = input("Nome do aluno: ")
         solicitacao = f"Procurar {nome}"
         
-    
     elif escolha == "3":
         solicitacao = "Listar"
-        
+
+    elif escolha == "4":
+        print("Saindo")
+        client_socket.close()
+        break    
 
     else:
         print("Opção inválida")
 
-    #ENVIAR MENSAGEM
     client_socket.send(solicitacao.encode())
-    #RECEBIMENTO DE RESPOSTA
     response = client_socket.recv(1024).decode()
-    print(response) 
-
-client_socket.close()
+    print(response)
