@@ -39,6 +39,8 @@ while True:
         resposta = ""
         for nome, info in alunos.items():
             resposta += f"Nome: {nome}, Média: {info['Média']:.2f}, Status: {info['Status']}\n"
+        if not alunos:
+            resposta = "Não há alunos cadastrados"
         
     else:
         resposta = "Comando inválido"
