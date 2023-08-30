@@ -1,9 +1,5 @@
 import socket
 
-def enviar_operacao(client_socket, operacao):
-    client_socket.send(operacao.encode())
-    
-
 
 HOST = '127.0.0.1'
 PORT = 12345
@@ -21,27 +17,28 @@ while True:
     escolha = input("Digite o número da operação desejada: ")
 
     if escolha == "1":
-        nome = input("Digite o nome do aluno: ")
-        notas = input("Digite as notas separadas por espaço (ex: 7.5 8.0): ")
-        enviar_operacao(client_socket, "cadastrar")
-        client_socket.send(nome.encode())
-        client_socket.send(notas.encode())
+        nome = input("Nome do aluno: ")
+        nota1 = input("Nota 1: ")
+        nota2 = input("Nota 2: ")
+        solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
+        
+    
     elif escolha == "2":
-        nome = input("Digite o nome do aluno que deseja procurar: ")
-        enviar_operacao(client_socket, "procurar")
-        client_socket.send(nome.encode())
+        nome = input("Nome do aluno: ")
+        solicitacao = f"Procurar {nome}"
+        
+    
     elif escolha == "3":
-        enviar_operacao(client_socket, "listar")
-    elif escolha == "4":
-        enviar_operacao(client_socket, "sair")
-        break
-    else:
-        print("Operação inválida. Tente novamente.")
+        solicitacao = "Listar"
+        
 
-    #ESSA É A PARTE QUE TAVA NA FUNÇÃO "ENVIAR OPERAÇÃO"
+    else:
+        print("Opção inválida")
+
+    #ENVIAR MENSAGEM
+    client_socket.send(solicitacao.encode())
+    #RECEBIMENTO DE RESPOSTA
     response = client_socket.recv(1024).decode()
     print(response) 
 
-
-# Fecha a conexão com o servidor
 client_socket.close()
