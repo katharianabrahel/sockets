@@ -36,5 +36,10 @@ while True:
         solicitacao = "Listar"
         print(enviar_solicitação(solicitacao).decode())
 
+    elif escolha == "4":
+        print("Saindo")
+        client_socket.close()
+        break
+    
     else:
         print("Opção inválida")
