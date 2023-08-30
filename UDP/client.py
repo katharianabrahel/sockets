@@ -1,10 +1,34 @@
 import socket
 
-def enviar_solicitação(mensagem):
+
+def enviar_solicitacao(mensagem):
     client_socket.sendto(mensagem.encode(), (host, port))
     resposta, addr = client_socket.recvfrom(1024)
     return resposta
 
+alunos = {
+    "João": [7.5, 9.2],
+    "Maria": [8.0, 6.5],
+    "Pedro": [6.8, 7.7],
+    "Ana": [9.5, 8.9],
+    "Lucas": [5.2, 6.0],
+    "Carla": [7.0, 7.8],
+    "Mariana": [8.5, 9.0],
+    "Gustavo": [4.5, 7.2],
+    "Luiza": [9.8, 9.7],
+    "Fernando": [6.2, 8.4],
+    "Alice": [7.3, 9.1],
+    "Rafael": [8.7, 8.3],
+    "Eduardo": [6.5, 7.1],
+    "Larissa": [9.0, 8.5],
+    "Marcos": [5.8, 6.4],
+    "Isabela": [7.9, 8.2],
+    "Tiago": [4.2, 7.9],
+    "Juliana": [8.4, 9.3],
+    "Roberto": [6.9, 7.6],
+    "Tatiana": [9.2, 9.8],
+    "André": [5.6, 6.7]
+}
 
 host = '127.0.0.1'
 port = 12345
@@ -12,34 +36,22 @@ port = 12345
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 while True:
-    print("Escolha uma operação:")
-    print("1. Cadastrar aluno")
-    print("2. Procurar aluno")
-    print("3. Listar alunos")
-    print("4. Sair")
-
-    escolha = input("Digite o número da operação desejada: ")
-
-    if escolha == "1":
-        nome = input("Nome do aluno: ")
-        nota1 = input("Nota 1: ")
-        nota2 = input("Nota 2: ")
+    #Cadastro de notas
+    print("Cadastrando aluno e nota...\n")
+    for nome, notas in alunos.items():
+        nota1 = notas[0]
+        nota2 = notas[1]
         solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
-        print(enviar_solicitação(solicitacao).decode())
+        print(enviar_solicitacao(solicitacao).decode())
     
-    elif escolha == "2":
-        nome = input("Nome do aluno: ")
-        solicitacao = f"Procurar {nome}"
-        print(enviar_solicitação(solicitacao).decode())
-    
-    elif escolha == "3":
-        solicitacao = "Listar"
-        print(enviar_solicitação(solicitacao).decode())
+    #Listar as notas
+    print("\nListando os alunos cadastrados...\n")
+    solicitacao = "Listar"
+    print(enviar_solicitacao(solicitacao).decode())
 
-    elif escolha == "4":
-        print("Saindo")
-        client_socket.close()
-        break
-    
-    else:
-        print("Opção inválida")
+    #Esperar tecla para sair
+    print("Pressione qualquer tecla para fechar o programa...")
+    input()
+    print("Programa encerrado.")
+    client_socket.close()
+    break

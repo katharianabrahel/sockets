@@ -30,14 +30,6 @@ while True:
         alunos[nome] = {"Nota1": nota1, "Nota2": nota2, "Média": media, "Status": status}
         resposta = f"Aluno {nome} cadastrado com média {media:.2f} - {status}"
 
-    elif message.startswith("Procurar"):
-        _, nome = message.split()
-        aluno = alunos.get(nome, None)
-        if aluno:
-            resposta = f"Nome: {nome}, Média: {aluno['Média']:.2f}, Status: {aluno['Status']}"
-        else:
-            resposta = f"Aluno {nome} não encontrado"
-
     elif message == "Listar":
         resposta = ""
         for nome, info in alunos.items():
