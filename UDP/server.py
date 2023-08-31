@@ -1,5 +1,11 @@
 import socket
 
+
+def registrar_DNS(server_name):
+    client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_dns.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    client_dns.close()
+
 def calcular_status(media):
     if media >= 7.0:
         return "Aprovado"
@@ -10,8 +16,10 @@ port = 12345
 
 alunos = {}
 
+registrar_DNS('udp-server')
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind((host,port))
+
 
 print("O servidor UDP está pronto")
 

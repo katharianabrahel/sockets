@@ -1,5 +1,13 @@
 import socket
 
+def consultar_dns(server_name):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.bind(('127.0.0.1', 2000))
+    client_socket.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    message, addr = client_socket.recvfrom(1024)
+    client_socket.close()
+    return message.decode()
+
 alunos = {
     "João": [7.5, 9.2],
     "Maria": [8.0, 6.5],
@@ -24,13 +32,14 @@ alunos = {
     "André": [5.6, 6.7]
 }
 
-HOST = '127.0.0.1'
-PORT = 12345
+HOST = consultar_dns('tcp-server')
+PORT = 54321
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
 
 while True:
+    
     #Cadastro de notas
     print("Cadastrando aluno e nota...\n")
     for nome, notas in alunos.items():

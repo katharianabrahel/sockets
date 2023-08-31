@@ -1,5 +1,10 @@
 import socket
 
+def registrar_DNS(server_name):
+    client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_dns.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    client_dns.close()
+
 def calcular_status(media):
     if media >= 7.0:
         return "Aprovado"
@@ -8,8 +13,9 @@ def calcular_status(media):
 alunos = {}
 
 HOST = '127.0.0.1'
-PORT = 12345  
+PORT = 54321  
 
+registrar_DNS('tcp-server')
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(5)

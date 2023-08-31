@@ -1,5 +1,12 @@
 import socket
 
+def consultar_dns(server_name):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.bind(('127.0.0.1', 2000)) 
+    client_socket.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    message, addr = client_socket.recvfrom(1024)
+    client_socket.close()
+    return message.decode()
 
 def enviar_solicitacao(mensagem):
     client_socket.sendto(mensagem.encode(), (host, port))
@@ -30,7 +37,7 @@ alunos = {
     "André": [5.6, 6.7]
 }
 
-host = '127.0.0.1'
+host = consultar_dns('udp-server')
 port = 12345
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
