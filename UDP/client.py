@@ -1,11 +1,10 @@
 import socket
 
 def consultar_dns(server_name):
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_socket.bind(('127.0.0.1', 2000)) 
-    client_socket.sendto(server_name.encode(), ('127.0.0.1', 5000))
-    message, addr = client_socket.recvfrom(1024)
-    client_socket.close()
+    client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_dns.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    message, address = client_dns.recvfrom(1024)
+    client_dns.close()
     return message.decode()
 
 def enviar_solicitacao(mensagem):
