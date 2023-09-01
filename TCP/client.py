@@ -1,4 +1,6 @@
 import socket
+import time
+
 
 def consultar_dns(server_name):
     client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -6,6 +8,7 @@ def consultar_dns(server_name):
     message, address = client_dns.recvfrom(1024)
     client_dns.close()
     return message.decode()
+
 
 alunos = {
     "João": [7.5, 9.2],
@@ -31,38 +34,47 @@ alunos = {
     "André": [5.6, 6.7]
 }
 
-HOST = consultar_dns('tcp-server')
-PORT = 54321
+with open("tempo_TCP.txt", "w") as arquivo_tempo:
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((HOST, PORT))
+    HOST = consultar_dns('tcp-server')
+    PORT = 54321
 
-while True:
-    
-    #Cadastro de notas
-    print("Cadastrando aluno e nota...\n")
-    for nome, notas in alunos.items():
-        nota1 = notas[0]
-        nota2 = notas[1]
-        solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
+    tempo_inicio = time.time()
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect((HOST, PORT))
+
+    while True:
+        
+        #Cadastro de notas
+        print("Cadastrando aluno e nota...\n")
+        for nome, notas in alunos.items():
+            nota1 = notas[0]
+            nota2 = notas[1]
+            solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
+            inicio_solicitacao = time.perf_counter()
+            client_socket.send(solicitacao.encode())
+            response = client_socket.recv(1024).decode()
+            final_solicitacao = time.perf_counter()
+            print(response)
+            tempo_transmissao = final_solicitacao - inicio_solicitacao
+            print(f"Tempo para cadastrar: {tempo_transmissao * 10 ** 3:.3f}ms")
+            arquivo_tempo.write(f"Tempo para cadastrar: {tempo_transmissao * 10 ** 3:.3f}ms\n")
+        
+        #Listar as notas
+        print("\nListando os alunos cadastrados...\n")
+        solicitacao = "Listar"
         client_socket.send(solicitacao.encode())
         response = client_socket.recv(1024).decode()
         print(response)
-    
-    #Listar as notas
-    print("\nListando os alunos cadastrados...\n")
-    solicitacao = "Listar"
-    client_socket.send(solicitacao.encode())
-    response = client_socket.recv(1024).decode()
-    print(response)
+        tempo_final = time.time()
 
-    #Esperar tecla para sair
-    print("Pressione qualquer tecla para fechar o programa...")
-    input()
-    print("Programa encerrado.")
-    client_socket.close()
-    break
+        tempo_total = tempo_final - tempo_inicio
+        arquivo_tempo.write(f"Tempo total: {tempo_total * 10 ** 3:.3f}ms\n")
+        print(f"O tempo total foi de: {tempo_total * 10 ** 3:.3f}ms")
 
-
-
-
+        #Esperar tecla para sair
+        print("Pressione ENTER para salvar os tempo no arquivo .txt")
+        input()
+        print("Programa encerrado.")
+        client_socket.close()
+        break
