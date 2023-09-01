@@ -39,19 +39,17 @@ with open("tempo_TCP.txt", "w") as arquivo_tempo:
     HOST = consultar_dns('tcp-server')
     PORT = 54321
 
-    tempo_inicio = time.time()
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect((HOST, PORT))
-
     while True:
-        
         #Cadastro de notas
         print("Cadastrando aluno e nota...\n")
+        tempo_inicio = time.time()
         for nome, notas in alunos.items():
             nota1 = notas[0]
             nota2 = notas[1]
             solicitacao = f"Cadastrar {nome} {nota1} {nota2}"
             inicio_solicitacao = time.perf_counter()
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.connect((HOST, PORT))
             client_socket.send(solicitacao.encode())
             response = client_socket.recv(1024).decode()
             final_solicitacao = time.perf_counter()
@@ -59,9 +57,12 @@ with open("tempo_TCP.txt", "w") as arquivo_tempo:
             tempo_transmissao = final_solicitacao - inicio_solicitacao
             print(f"Tempo para cadastrar: {tempo_transmissao * 10 ** 3:.3f}ms")
             arquivo_tempo.write(f"Tempo para cadastrar: {tempo_transmissao * 10 ** 3:.3f}ms\n")
-        
+            client_socket.close()
+
         #Listar as notas
         print("\nListando os alunos cadastrados...\n")
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((HOST, PORT))
         solicitacao = "Listar"
         client_socket.send(solicitacao.encode())
         response = client_socket.recv(1024).decode()

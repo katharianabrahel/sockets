@@ -22,10 +22,11 @@ server_socket.listen(5)
 
 print(f"O servidor está pronto")
 
-client_socket, addr = server_socket.accept()
-print(f"Conexão recebida de {addr}")
 
 while True:
+    client_socket, addr = server_socket.accept()
+    print(f"Conexão recebida de {addr}")
+
     message = client_socket.recv(1024).decode()
 
     if message.startswith("Cadastrar"):
@@ -47,6 +48,6 @@ while True:
         resposta = "Comando inválido"
 
     client_socket.send(resposta.encode())
-client_socket.close()
+    client_socket.close()
 
 server_socket.close()
