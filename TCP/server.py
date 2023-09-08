@@ -1,9 +1,20 @@
 import socket
+import threading  
 
 def registrar_DNS(server_name):
+    message = f'registrar {server_name}'
     client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_dns.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    client_dns.sendto(message.encode(), ('127.0.0.1', 5000))
     client_dns.close()
+
+def parar_server():
+    input("\nCaso alguma tecla seja pressionada, o servidor será encerrado!\n")
+    message = f'apagar tcp-server'
+    client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_dns.sendto(message.encode(), ('127.0.0.1', 5000))
+    client_dns.close()
+    server_socket.close()
+    exit()
 
 def calcular_status(media):
     if media >= 7.0:
@@ -20,13 +31,15 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(5)
 
-print(f"O servidor está pronto")
+print(f"O servidor TCP está pronto")
 
+parar_servidor = threading.Thread(target=parar_server)
+parar_servidor.daemon = True  
+parar_servidor.start()
 
 while True:
     client_socket, addr = server_socket.accept()
-    print(f"Conexão recebida de {addr}")
-
+    
     message = client_socket.recv(1024).decode()
 
     if message.startswith("Cadastrar"):
@@ -49,5 +62,3 @@ while True:
 
     client_socket.send(resposta.encode())
     client_socket.close()
-
-server_socket.close()

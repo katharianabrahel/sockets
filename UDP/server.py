@@ -1,10 +1,20 @@
 import socket
-
+import threading
 
 def registrar_DNS(server_name):
+    message = f'registrar {server_name}'
     client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_dns.sendto(server_name.encode(), ('127.0.0.1', 5000))
+    client_dns.sendto(message.encode(), ('127.0.0.1', 5000))
     client_dns.close()
+
+def parar_server():
+    input("\nCaso alguma tecla seja pressionada, o servidor será encerrado!\n")
+    message = f'apagar udp-server'
+    client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_dns.sendto(message.encode(), ('127.0.0.1', 5000))
+    client_dns.close()
+    server_socket.close()
+    exit()
 
 def calcular_status(media):
     if media >= 7.0:
@@ -22,6 +32,10 @@ server_socket.bind((host,port))
 
 
 print("O servidor UDP está pronto")
+
+parar_servidor = threading.Thread(target=parar_server)
+parar_servidor.daemon = True  
+parar_servidor.start()
 
 while True:
     message, addr = server_socket.recvfrom(1024)
