@@ -8,7 +8,7 @@ def registrar_DNS(server_name):
     client_dns.close()
 
 def parar_server():
-    input("\nPara encerrar o servidor, pressione "ENTER"\n")
+    input("\nPara encerrar o servidor, pressione ENTER\n")
     message = f'apagar udp-server'
     client_dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     client_dns.sendto(message.encode(), ('127.0.0.1', 5000))
