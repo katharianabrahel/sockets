@@ -1,4 +1,4 @@
-<h1 align="center">:man_technologist: Calculadora de Notas de Alunos - Projeto Programação com sockets</h1>
+<h1 align="center">:man_technologist: Calculadora de Notas de Alunos - Projeto Programação com Sockets</h1>
 
 ## :memo: Descrição
 Projeto realizado na disciplina de Redes de Computadores, do curso de Sistemas de Informação da Universidade Federal de Pernambuco (UFPE), o qual tem como finalidade criar duas versões de uma aplicação cliente-servidor, uma usando o protocolo TCP e outra usando o protocolo UDP. Para isso, criamos um serviço que cadastra alunos com suas respectivas notas e retorna sua média juntamente com sua situação (Aprovado ou Reprovado).
