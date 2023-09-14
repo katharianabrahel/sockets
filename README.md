@@ -17,7 +17,13 @@ Projeto realizado na disciplina de Redes de Computadores, do curso de Sistemas d
 É possível, após executar o DNS, abrir os 2 servidores dos 2 protocolos e depois executar o client.py de cada um. Fica a escolha do usuário.  
 Apenas deve seguir o fluxo: DNS -> Server -> Client
 
+## :camera: Imagens
 
+<img src="images/image1.jpeg" />  
+<img src="images/image2.jpeg" />  
+<img src="images/image3.jpeg" />  
+<img src="images/image4.jpeg" />  
+<img src="images/image5.jpeg" />  
 
 
 ## ✒️ Autores
